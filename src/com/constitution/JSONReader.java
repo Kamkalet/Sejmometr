@@ -1,5 +1,6 @@
 package com.constitution;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,14 +8,15 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 public class JSONReader {
 
-    private ArrayList<JSONObject> array;
+
 
     public JSONReader(){
 
-        array = new ArrayList<JSONObject>();
+
 
     }
 
@@ -41,20 +43,24 @@ public class JSONReader {
         }
     }
 
-    public void readDeputyList(String url) throws IOException,JSONException{
+    public JSONArray readDeputyList(String url) throws IOException,JSONException{
 
+        JSONArray array = new JSONArray();
         String currentURL = url;
-        do{
+        while(true){
 
             JSONObject obj = readJsonFromUrl(currentURL);
-            array.add(obj);
-            String a = (String) ((JSONObject) obj.get("Links")).get("next");
-            System.out.println(a.toString());
+            array.put(obj);
+            System.out.println(array.length());
+            if( ( (JSONObject)obj.opt("Links")).opt("next") == null ){
+                break;
+            }
 
-
+            currentURL = (String) ((JSONObject) obj.get("Links")).get("next");
 
         }
-        while(false);
+
+        return array;
 
     }
 

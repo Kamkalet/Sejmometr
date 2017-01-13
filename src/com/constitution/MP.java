@@ -1,23 +1,36 @@
 package com.constitution;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-/**
- * Created by AD on 16.12.2016.
- */
 
 public class MP {
 
-    List<String> businessTrips;
-
     private int id;
+    private String firstName;
+    private String lastName;
 
 
-    public int getId(){
-
-        return this.id;
-
+    public MP(int id, String firstName,String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.firstName;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
 }

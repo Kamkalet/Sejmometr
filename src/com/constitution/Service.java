@@ -15,8 +15,8 @@ import java.util.List;
 public class Service {
 
     List<Thread> threads = new LinkedList<>();
-    HashMap<String, Integer> nameArray;
-    HashMap<MP, Integer> MPArray;
+    HashMap<String, Integer> nameArray = new HashMap<String, Integer>();
+    HashMap<MP, Integer> MPArray = new HashMap<MP, Integer>();
 
     public void service(UserRequestData data) throws IOException{
 
@@ -32,18 +32,22 @@ public class Service {
         for (int i = 0; i < array.length(); i++) {
             MPList = parser.parsePage(array.getJSONObject(i));
             addMPsToHashMap(MPList);
-            threads.add(new Thread(new MPDataRunnable(MPList)));
+            threads.add(new Thread(new MPDataRunnable(MPList,reader)));
 
         }
 
         Parliament parliament = new Parliament(MPArray, nameArray);
 
-                /*
+        try {
+            threads.forEach(Thread::start);
+            for (Thread thread : threads) {
+                thread.join();
+            }
+        }catch (InterruptedException e){
 
-        for (int i = 0; i < array.length(); i++) {
-            threads.add(new Thread(new MPDataRunnable(array.getJSONObject(i), reader)));
-            threads.get(i).start();
-        }*/
+            e.printStackTrace();
+
+        }
 
 
 

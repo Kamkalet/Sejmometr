@@ -21,7 +21,6 @@ public class Parliament {
         return MPList;
     }
 
-
     public HashMap<String, Integer> getMPNameList() {
         return MPNameList;
     }

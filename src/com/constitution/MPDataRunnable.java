@@ -3,44 +3,114 @@ package com.constitution;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by AD on 13.01.2017.
  */
 public class MPDataRunnable implements Runnable{
-    
+
     private List<MP> list;
     private JSONReader reader;
 
-    public MPDataRunnable(List<MP> list){
+    public MPDataRunnable(List<MP> list, JSONReader reader){
 
         this.list = list;
+        this.reader = reader;
 
     }
 
+    @Override
     public void run(){
 
-        parsePage(MPs);
+        parsePage(list);
 
     }
 
-    public MP parseDeputy(JSONObject obj){
+    public void updateExpenses(JSONObject expensesJson, MP currentMP){
 
-        int id = obj.getInt("id");
-        String firstName = ((JSONObject) obj.get("data")).getString("poslowie.imie_pierwsze");
-        String lastName = ((JSONObject) obj.get("data")).getString("poslowie.nazwisko");
-        MP a = new MP(id,firstName,lastName);
+        JSONArray points = expensesJson.getJSONArray("punkty");
+        JSONArray years = expensesJson.getJSONArray("roczniki");
 
-        return a;
+
+        HashMap<Integer, String> expenseNames = new HashMap<Integer,String>();
+        for (int i = 0; i < points.length(); i++) {
+            JSONObject a = points.getJSONObject(i);
+            expenseNames.put(a.getInt("numer"),a.getString("tytul"));
+        }
+
+        BigDecimal totalSum;
+        for (int i = 0; i < years.length(); i++) {
+
+            HashMap<Integer, BigDecimal> expensesMap = new HashMap<Integer,BigDecimal>();
+            JSONObject a = years.getJSONObject(i);
+            JSONArray expensesFromYearJsonArray = a.getJSONArray("pola");
+            int year = a.getInt("rok");
+
+            for(int j = 0; j< expensesFromYearJsonArray.length(); j++) {
+
+                BigDecimal value = new BigDecimal(expensesFromYearJsonArray.getString(j));
+                expensesMap.put(i, value);
+
+            }
+
+            Expenses newExpenses = new Expenses(expensesMap, expenseNames, year);
+            currentMP.addExpenses(newExpenses);
+
+        }
 
     }
 
-    public void parsePage(JSONObject obj){
+    public void updateTrips(JSONArray tripsJSON, MP currentMP){
 
-        JSONArray deputyArray = (JSONArray) obj.get("Dataobject");
-        for (int i = 0; i < deputyArray.length(); i++) {
-            MPArray.add(parseDeputy(deputyArray.getJSONObject(i)));
+        for(int i = 0; i < tripsJSON.length(); i++){
+
+            Trip trip = new Trip(tripsJSON.getJSONObject(i));
+            currentMP.addTrip(trip);
+        }
+
+    }
+
+    public void getAdditionalData(MP currentMP) throws IOException{
+
+        int id = currentMP.getId();
+        String url = "https://api-v3.mojepanstwo.pl/dane/poslowie/"+
+                id +
+                ".json?layers[]=krs&layers[]=wydatki";
+        JSONObject obj = reader.readJsonFromUrl(url);
+        JSONObject expensesJSON = (JSONObject) (((JSONObject )obj.get("layers")).get("wydatki"));
+        updateExpenses(expensesJSON, currentMP);
+
+        String tripsURL = "https://api-v3.mojepanstwo.pl/dane/poslowie/"+
+                id +
+                ".json?layers[]=krs&layers[]=wyjazdy";
+        JSONObject obj2 = reader.readJsonFromUrl(tripsURL);
+        JSONObject tripsJSON = (JSONObject) (((JSONObject )obj.get("layers")));
+        if (tripsJSON.opt("wyjazdy") != null) {
+
+            updateTrips(tripsJSON.getJSONArray("wyjazdy"), currentMP);
+
+        }
+
+
+    }
+
+    public void parsePage(List<MP> MPList) {
+
+        try {
+            for (MP mp : MPList) {
+
+                getAdditionalData(mp);
+
+            }
+        } catch( IOException e){
+
+            e.printStackTrace();
+            System.out.println("Błąd czytania dodatkowych danych");
+
         }
 
     }

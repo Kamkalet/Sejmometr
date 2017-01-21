@@ -36,29 +36,28 @@ public class MPDataRunnable implements Runnable{
         JSONArray years = expensesJson.getJSONArray("roczniki");
 
 
-        HashMap<Integer, String> expenseNames = new HashMap<Integer,String>();
-        for (int i = 0; i < points.length(); i++) {
-            JSONObject a = points.getJSONObject(i);
-            expenseNames.put(a.getInt("numer"),a.getString("tytul"));
-        }
-
-        BigDecimal totalSum;
         for (int i = 0; i < years.length(); i++) {
 
-            HashMap<Integer, BigDecimal> expensesMap = new HashMap<Integer,BigDecimal>();
-            JSONObject a = years.getJSONObject(i);
-            JSONArray expensesFromYearJsonArray = a.getJSONArray("pola");
-            int year = a.getInt("rok");
+            JSONObject yearJSON = years.getJSONObject(i);
+            JSONArray expensesFromArray = yearJSON.getJSONArray("pola");
 
-            for(int j = 0; j< expensesFromYearJsonArray.length(); j++) {
+            if (expensesFromArray.length() != points.length()) { // if JSON is not valid, skip
 
-                BigDecimal value = new BigDecimal(expensesFromYearJsonArray.getString(j));
-                expensesMap.put(i, value);
+                break;
 
             }
 
-            Expenses newExpenses = new Expenses(expensesMap, expenseNames, year);
-            currentMP.addExpenses(newExpenses);
+            Expenses expenses = new Expenses(yearJSON.getString("rok"),
+                    new Titles());
+
+            for(int j = 0; j < expensesFromArray.length(); j++) {
+
+                String value = (expensesFromArray.getString(j));
+                expenses.addExpense(points.getString(j), value);
+
+            }
+
+            currentMP.addExpenses(expenses);
 
         }
 

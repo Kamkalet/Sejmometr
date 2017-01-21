@@ -9,15 +9,15 @@ import org.json.*;
  */
 public class Parliament {
 
-    HashMap<MP,Integer> MPList;
+    HashMap<Integer,MP> MPList;
     HashMap<String, Integer> MPNameList;
 
-    public Parliament(HashMap<MP, Integer> MPList, HashMap<String, Integer> MPNameList) {
+    public Parliament(HashMap<Integer, MP> MPList, HashMap<String, Integer> MPNameList) {
         this.MPList = MPList;
         this.MPNameList = MPNameList;
     }
 
-    public HashMap<MP, Integer> getMPList() {
+    public HashMap<Integer, MP> getMPList() {
         return MPList;
     }
 

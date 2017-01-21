@@ -32,9 +32,6 @@ public class MP {
 
     }
 
-
-
-
     public int getId() {
         return this.id;
     }
@@ -50,5 +47,16 @@ public class MP {
     @Override
     public int hashCode() {
         return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MP)) {
+            return false;
+        }
+        return this.id == ((MP) o).getId();
     }
 }

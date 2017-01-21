@@ -6,13 +6,14 @@ package com.constitution;
 import java.util.HashMap;
 
 public class Titles {
+
     private HashMap<String, Integer> expensesTitles;
 
     public Titles(){
         this.expensesTitles = new HashMap<>();
     }
 
-    public int setExpensesTitleId(String title) {
+    public int addTitle(String title) {
         if(this.expensesTitles.containsKey(title)){
             return this.expensesTitles.get(title);
         }else{

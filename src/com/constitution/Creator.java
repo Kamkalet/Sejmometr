@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Created by AD on 06.01.2017.
  */
-public class Service {
+public class Creator {
 
     List<Thread> threads = new LinkedList<>();
     HashMap<String, Integer> nameArray = new HashMap<String, Integer>();
-    HashMap<MP, Integer> MPArray = new HashMap<MP, Integer>();
+    HashMap<Integer, MP> MPArray = new HashMap<Integer, MP>();
 
     public void service(UserRequestData data) throws IOException{
 
@@ -49,14 +49,6 @@ public class Service {
 
         }
 
-
-
-
-
-
-     //   Parliament polishParliament = makeParliament(MPArray);
-
-
     }
 
     private void addMPsToHashMap(List<MP> list){
@@ -64,7 +56,7 @@ public class Service {
         for(MP a : list){
 
             String fullname = a.getFirstName() + a.getLastName();
-            MPArray.put(a, a.getId());
+            MPArray.put(a.getId(), a);
             nameArray.put(fullname, a.getId());
 
         }

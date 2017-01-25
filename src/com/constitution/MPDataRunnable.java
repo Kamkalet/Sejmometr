@@ -53,7 +53,7 @@ public class MPDataRunnable implements Runnable{
             for(int j = 0; j < expensesFromArray.length(); j++) {
 
                 String value = (expensesFromArray.getString(j));
-                expenses.addExpense(points.getString(j), value);
+                expenses.addExpense(points.getJSONObject(j).getString("tytul"), value);
 
             }
 

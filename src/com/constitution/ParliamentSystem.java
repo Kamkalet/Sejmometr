@@ -11,7 +11,7 @@ public class ParliamentSystem {
         CommandParser parser = new CommandParser();
         UserRequestData data = parser.parse(args);
 
-        Service a = new Service();
+        Creator a = new Creator();
         try {
             a.service(data);
         } catch(IOException e){

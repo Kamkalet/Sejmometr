@@ -24,14 +24,14 @@ public class ParliamentSystem {
 
         String fullname = data.getSurname() + data.getName();
         MP chosenMP = pl.getMP(fullname);
-        System.out.println(chosenMP.getAllExpenses());
-        System.out.println(chosenMP.getAllExpensesForSmallRepairsOfMPOffice());
-        System.out.println(pl.getPoliticiansAverageSumOfAllExpenses());
-        System.out.println(pl.getPoliticianIdWhoHaveTravelledMost().getFullname());
-       System.out.println(pl.getPoliticianIdWithTheLongestTrip().getFullname());
-       System.out.println(pl.getPoliticianIdWithTheLongestTrip().getFullname());
+        System.out.println("Suma wydatkow posla: " + chosenMP.getAllExpenses());
+        System.out.println("Suma wydatkow na drobne naprawy w biurze: "+ chosenMP.getAllExpensesForSmallRepairsOfMPOffice());
+        System.out.println("Sredni wydatek poslow: " + pl.getPoliticiansAverageSumOfAllExpenses());
+        System.out.println("Polityk, ktory najwiecej podrozowal: " +pl.getPoliticianIdWhoHaveTravelledMost().getFullname());
+        System.out.println("Posel przebywajacy najdluzej za granica: " + pl.getPoliticianIdWithTheLongestTrip().getFullname());
+         System.out.println("Posel, ktory odbyl najdrozsza podroz zagraniczna: " + pl.getPoliticianIdWithTheMostExpensiveTrip().getFullname());
         List<MP> italyBeen = pl.getListOfPoliticiansWhoHadBeenInItaly();
-        System.out.println("We Wloszech byli: \n");
+        System.out.println("\nWe Wloszech byli: \n");
         for(MP a : italyBeen){
 
             System.out.println(a.getFullname());

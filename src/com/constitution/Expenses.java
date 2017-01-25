@@ -26,10 +26,6 @@ public class Expenses {
 
         int id = this.expensesTitles.addTitle(title);
 
-       // if (this.expensesMap.containsKey(id)) {
-     //       this.total = this.total.subtract(this.expensesMap.get(id));
-      //  }
-
         BigDecimal valueBigDecimal = new BigDecimal(value);
         this.expensesMap.put(id, valueBigDecimal);
         this.total = this.total.add(valueBigDecimal);

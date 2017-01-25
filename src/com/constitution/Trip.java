@@ -1,8 +1,6 @@
 package com.constitution;
 
-/**
- * Created by AD on 13.01.2017.
- */
+
 import org.json.JSONObject;
 import java.math.BigDecimal;
 

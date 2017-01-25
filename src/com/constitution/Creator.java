@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class Creator {
 
-    List<Thread> threads = new LinkedList<>();
-    HashMap<String, Integer> nameArray = new HashMap<String, Integer>();
-    HashMap<Integer, MP> MPArray = new HashMap<Integer, MP>();
+    private List<Thread> threads = new LinkedList<>();
+    private HashMap<String, Integer> nameArray = new HashMap<String, Integer>();
+    private HashMap<Integer, MP> MPArray = new HashMap<Integer, MP>();
 
     public Parliament service(UserRequestData data) throws IOException{
 

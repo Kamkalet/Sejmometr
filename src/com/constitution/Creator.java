@@ -18,7 +18,7 @@ public class Creator {
     HashMap<String, Integer> nameArray = new HashMap<String, Integer>();
     HashMap<Integer, MP> MPArray = new HashMap<Integer, MP>();
 
-    public void service(UserRequestData data) throws IOException{
+    public Parliament service(UserRequestData data) throws IOException{
 
         String listOfDeputiesURL = "https://api-v3.mojepanstwo.pl/dane/poslowie.json?conditions[poslowie.kadencja]="
                 + data.getCadence();
@@ -49,13 +49,15 @@ public class Creator {
 
         }
 
+        return parliament;
+
     }
 
     private void addMPsToHashMap(List<MP> list){
 
         for(MP a : list){
 
-            String fullname = a.getFirstName() + a.getLastName();
+            String fullname = a.getLastName()+a.getFirstName();
             MPArray.put(a.getId(), a);
             nameArray.put(fullname, a.getId());
 

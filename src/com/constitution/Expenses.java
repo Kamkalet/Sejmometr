@@ -44,7 +44,7 @@ public class Expenses {
         return this.total;
     }
 
-    public BigDecimal getExpensesForSmallRepairsOfPoliticianOffice(){
+    public BigDecimal getExpensesForSmallRepairsOfMPOffice(){
         int expenseId = this.expensesTitles.getExpensesTitle("Koszty drobnych napraw i remontów lokalu biura poselskiego");
         if(expenseId == -1 || !this.expensesMap.containsKey(expenseId)){
             return BigDecimal.ZERO;

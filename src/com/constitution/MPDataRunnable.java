@@ -87,8 +87,9 @@ public class MPDataRunnable implements Runnable{
                 id +
                 ".json?layers[]=krs&layers[]=wyjazdy";
         JSONObject obj2 = reader.readJsonFromUrl(tripsURL);
-        JSONObject tripsJSON = (JSONObject) (((JSONObject )obj.get("layers")));
-        if (tripsJSON.opt("wyjazdy") != null) {
+        JSONObject tripsJSON = (JSONObject) (((JSONObject )obj2.get("layers")));
+
+        if (tripsJSON.get("wyjazdy") instanceof JSONArray) {
 
             updateTrips(tripsJSON.getJSONArray("wyjazdy"), currentMP);
 

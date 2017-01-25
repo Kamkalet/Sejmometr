@@ -1,5 +1,6 @@
 package com.constitution;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class MP {
 
     }
 
+    public String getFullname() {
+        return lastName+firstName;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -41,7 +46,57 @@ public class MP {
     }
 
     public String getLastName() {
-        return this.firstName;
+        return this.lastName;
+    }
+
+    public BigDecimal getAllExpenses() {
+        BigDecimal allExpenses = BigDecimal.ZERO;
+
+        for (Expenses expenses : this.expensesList) {
+            allExpenses = allExpenses.add(expenses.getSumOfExpenses());
+        }
+        return allExpenses;
+    }
+
+    public BigDecimal getAllExpensesForSmallRepairsOfMPOffice() {
+        BigDecimal sumOfExpenses = BigDecimal.ZERO;
+
+        for (Expenses expenses : this.expensesList) {
+            sumOfExpenses = sumOfExpenses.add(expenses.getExpensesForSmallRepairsOfMPOffice());
+        }
+        return sumOfExpenses;
+    }
+
+    public int getQuantityOfTips() {
+        return this.tripList.size();
+    }
+
+    public int getDurationOfTrips() {
+        int durationOfTrips = 0;
+        for(Trip trip : this.tripList){
+            durationOfTrips += trip.getDurationOfTripInDays();
+        }
+        return  durationOfTrips;
+    }
+
+    public BigDecimal getCostOfMostExpensiveTrip() {
+        BigDecimal costOfMostExpensiveTrip = BigDecimal.ZERO;
+        BigDecimal costOfTrip;
+
+        for (Trip tripList : this.tripList) {
+            costOfTrip = tripList.getTotalCost();
+            costOfMostExpensiveTrip = costOfMostExpensiveTrip.max(costOfTrip);
+        }
+        return costOfMostExpensiveTrip;
+    }
+
+    public boolean hadBeenInItaly() {
+        for (Trip aBusinessTripList : this.tripList) {
+            if (aBusinessTripList.thisIsTripToItaly()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

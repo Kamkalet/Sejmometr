@@ -20,7 +20,7 @@ public class JSONReader {
 
     }
 
-    private String readURL(BufferedReader rd) throws IOException {
+    public String readURL(BufferedReader rd) throws IOException {
 
         StringBuilder sb = new StringBuilder("");
         String line;

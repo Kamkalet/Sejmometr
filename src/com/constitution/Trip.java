@@ -14,6 +14,7 @@ public class Trip {
     private BigDecimal totalCost;
 
     public Trip(JSONObject businessTripJsonObject){
+       // System.out.println("lol");
         this.tripDescription = businessTripJsonObject.getString("delegacja");
         this.country = businessTripJsonObject.getString("kraj");
         this.id = businessTripJsonObject.getInt("id");
